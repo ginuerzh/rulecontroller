@@ -273,12 +273,12 @@ func RebuildPushData(data []byte) (error, []byte) {
 			ruleStr = items[0].Condiction
 		}
 	} else {
-		return errors.NewError(errors.DbError, err.Error()), data
+		return errors.NewError(errors.DbError, "rule id is 0"), data
 	}
 	//log.Println("ruleStr :", ruleStr)
 	if len(ruleStr) == 0 {
 		log.Println("no rule filed, err")
-		return errors.NewError(errors.DbError, err.Error()), data
+		return errors.NewError(errors.DbError, "rule string is nil"), data
 	}
 
 	query, limit := parseStrToQuery(ruleStr, events.Data.From)
