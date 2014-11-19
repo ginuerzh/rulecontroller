@@ -82,6 +82,11 @@ func parseStrToQuery(ruleStr, userid string) (bson.M, int) {
 	query := bson.M{}
 	var limit int
 	fields := strings.Split(ruleStr, " and ")
+
+	query["_id"] = bson.M{
+		"$ne": userid,
+	}
+
 	for _, field := range fields {
 		fs := strings.Split(field, " ")
 		switch fs[0] {
@@ -137,17 +142,11 @@ func parseStrToQuery(ruleStr, userid string) (bson.M, int) {
 							"$near":        []float64{testdata.Lat, testdata.Lng},
 							"$maxDistance": c,
 						}
-						query["_id"] = bson.M{
-							"$ne": userid,
-						}
 						//return query, 0
 					} else {
 						query["loc"] = bson.M{
 							"$near":        []float64{user.Loc.Lat, user.Loc.Lng},
 							"$maxDistance": c,
-						}
-						query["_id"] = bson.M{
-							"$ne": userid,
 						}
 					}
 				}
